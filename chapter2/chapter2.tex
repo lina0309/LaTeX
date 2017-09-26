@@ -1,0 +1,633 @@
+%-*- coding: UTF-8 -*-
+\documentclass[UTF8]{ctexart}
+\usepackage{geometry}
+\geometry{a4paper,centering,scale=0.8}
+\usepackage{textcomp}
+\usepackage[gen]{eurosym}
+\usepackage{array}
+
+\title{\heiti Chapter 2 Typesetting Text}
+\author{ Donald E. Knuth(高德纳)}
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+
+\newpage
+\section{文章和语言的结构}
+书写一篇文章最重要的一点是把想法、信息、知识传达给读者。 \LaTeX 与其他类型的排版系统不同，你只需要告诉它一个文本的逻辑结构和语义结构。然后
+根据文档类文件和各种样式的文件中所带有的“规则”来生成文件。
+
+\LaTeX 中最重要的文本单位是段。分段需要在对应的源码中空一行，如果要继续写可以用换行符，用\texttt{\textbackslash}\texttt{\textbackslash}或\texttt{\textbackslash}newline。下面是说明该换行还是该另起一段的三个正确示例：
+
+\texttt{\%} Example 1
+
+\texttt{\textbackslash}ldots when Einstein introduced his formula
+
+\texttt{\textbackslash}begin\texttt{\{}equation\texttt{\}}
+
+   \qquad e = m \texttt{\textbackslash}cdot c\texttt{~\^}2 \texttt{\textbackslash} ; ,
+
+\texttt{\textbackslash}end\texttt{\{}equation\texttt{\}}
+
+which is at the same time the most widely known
+
+and the least well understood physical formula.
+\\
+
+\texttt{\%} Example 2
+
+\texttt{\textbackslash}ldots from which follows Kirchhoff' s current law:
+
+\texttt{\textbackslash}begin\texttt{\{}equation\texttt{\}}
+
+  \qquad \texttt{\textbackslash}sum\texttt{\_}\texttt{\{}k=1\texttt{\}}\texttt{~\^}\texttt{\{}n\texttt{\}}  I\texttt{\_}k=0 \texttt{\textbackslash};
+
+\texttt{\textbackslash}end\texttt{\{}equation\texttt{\}}
+\\
+
+Kirchhoff' s voltage law can be derives \texttt{\textbackslash}ldots
+\\
+
+\texttt{\%} Example 3
+
+\texttt{\textbackslash}ldots which has several advantages.
+
+\texttt{\textbackslash}begin\texttt{\{}equation\texttt{\}}
+
+   \qquad I\texttt{\_}D = I\texttt{\_}F - I\texttt{\_}R
+
+\texttt{\textbackslash}end\texttt{\{}equation\texttt{\}}
+
+is the core of a very different transistor model. \texttt{\textbackslash}ldots
+\section{断行和断页}
+\subsection{合理分段}
+\begin{itemize}
+  \item \texttt{\textbackslash}\texttt{\textbackslash} or \texttt{\textbackslash}newline:
+
+  断行但不是另起一段。\texttt{\textbackslash}\texttt{\textbackslash}也在表格、公式等地方用于分行，而
+\texttt{\textbackslash}newline只用于文本段落中。
+  \item \texttt{\textbackslash}\texttt{\textbackslash}\texttt{$\ast$}：
+
+  断行，但不另起一页和不断页。
+  \item \texttt{\textbackslash}newpage or \texttt{\textbackslash}clearpage:
+
+  通常情况下两个命令都能起到另起一页的作用，但有一些区别：一是在双排版中 \texttt{\textbackslash}newpage 只起到另起一栏的作用；二是涉及到浮动体的排版上行为不同。
+
+  \item \texttt{\textbackslash}linebreak\texttt{[}$\langle$n$\rangle$\texttt{]} \texttt{\textbackslash}nolinebreak\texttt{[}$\langle$n$\rangle$\texttt{]} \texttt{\textbackslash}pagebreak\texttt{[}$\langle$n$\rangle$\texttt{]}
+  \texttt{\textbackslash}nopagebreak\texttt{[}$\langle$n$\rangle$\texttt{]}:
+
+  不满足于 \LaTeX 默认的断行和断页位置，用其高速哪些地方适合断页，哪些地方不合适。$\langle$n$\rangle$代表合适/不合适的程度，取值范围为 0-4，不带可选参数时，缺省为4。以上命令适合给出优先考虑断行断页\texttt{\textbackslash}禁止断行断页的位置，
+  但不适合直接拿来断行或断页，使用\texttt{\textbackslash}newline 或\texttt{\textbackslash}newpage 等是更好的选择。
+\end{itemize}
+\subsection{连字符}
+如果遇到很长的英文单词，仅在单词之间的位置断行无法生成宽度匀称的行时，就要考虑从单词中间段开。对于绝大部分单词，\LaTeX 能够找到合适的断词位置，在断开的行尾加上连字符 - 。如果一些单词没能自动断词，我们可以在单词内手动使用\texttt{\textbackslash}-命令指定断词的位置。
+另外，也可以使用\texttt{\textbackslash}hyphenation\texttt{\{}word list\texttt{\}}命令来指定使用连字符的位置，例如texttt{\textbackslash}hyphenation\texttt{\{}FORTRAN Hy-phen-a-tion\texttt{\}},其中的word list是不区分大小写的。
+\begin{itemize}
+   \item \texttt{\textbackslash}mbox\texttt{\{}text\texttt{\}}或\texttt{\textbackslash}fbox\texttt{\{}text\texttt{\}}:
+
+   会避免text被连字符分开。\texttt{\textbackslash}fbox\texttt{\textbackslash}mbox多了个可见的框。
+\end{itemize}
+\section{预定义好的字符串}
+\begin{itemize}
+  \item \texttt{\textbackslash}today : 打印当天日期
+  \item \texttt{\textbackslash}TeX : \TeX
+  \item \texttt{\textbackslash}LaTeX : \LaTeX
+  \item \texttt{\textbackslash}LaTeXe : \LaTeXe
+\end{itemize}
+\section{特殊字符和符号}
+\subsection{引号}
+\begin{itemize}
+  \item 双引号：``...tex...''
+  \item 单引号：`...tex...'
+
+     ``Please press the `x' key.''
+\end{itemize}
+\subsection{短划线和连字符}
+在\LaTeX 中有下面四种横杠：
+\begin{itemize}
+   \item - ：- 连字符，用于连接词语。
+
+   daughter-in-law, X-rated
+   \item - - ：-- 短破折号，常用于连接数字表示起止范围。
+
+   pages 13--67
+   \item - - - ：--- 长破折号，常用于表示意思的转换。
+
+   yes---or no?
+   \item \$-\$ ：$-$ 减号
+
+   $0$,$1$ and $-1$
+\end{itemize}
+\subsection{波浪线}
+\begin{itemize}
+    \item \texttt{\textbackslash}\texttt{~\~}\texttt{\{}\texttt{\}} ：\~{}
+
+http://www.rich.edu/\~{}bush
+    \item \$\texttt{\textbackslash}sim\$ : $\sim$
+
+http://www.clever.edu/$\sim$demo
+\end{itemize}
+\subsection{斜杠}
+\begin{itemize}
+  \item read/write: 不允许用连字符拆分
+  \item read\texttt{\textbackslash}slash write: 不允许用连字符拆分
+\end{itemize}
+\subsection{度}
+\begin{itemize}
+  \item \$30\texttt{\textbackslash}, \texttt{~\^}\texttt{\{}\texttt{\textbackslash}cric\texttt{\}}\texttt{\textbackslash}mathrm\texttt{\{}C\texttt{\}}\$ :
+$-30\,^{\circ}\mathrm{C}$
+  \item 30 \texttt{\textbackslash}textcelsius\texttt{\{}\texttt{\}}: 30 \textcelsius{}
+  \item 86 \texttt{\textbackslash}textdegree\texttt{\{}\texttt{\}}F: 86 \textdegree{}F
+\end{itemize}
+\subsection{欧元符号}
+ 首先需要在导言区加载textcomp包：
+
+ \texttt{\textbackslash}usepackage\texttt{\{}textcomp\texttt{\}}
+
+ 使用命令输出：
+
+ \texttt{\textbackslash}texteuro
+
+ 如果所用的字体不包含欧元符号或者想用别的字体的欧元符号,导入eurosym宏包，用gen来替换official参数可以使用和当前字体匹配的欧元符号:
+
+ \texttt{\textbackslash}usepackage[official]\texttt{\{}eurosym\texttt{\}}
+ \begin{itemize}
+  \item \texttt{\textbackslash}texteuro：\texteuro
+  \item \texttt{\textbackslash}euro: \euro
+\end{itemize}
+\subsection{省略号}
+\LaTeX 提供了命令\texttt{\textbackslash}ldots来生成省略号，相对于直接输入三个点的方式更为合理。\texttt{\textbackslash}ldots和\texttt{\textbackslash}dots是两个等效的命令。
+\begin{itemize}
+  \item ...:...
+  \item \texttt{\textbackslash}ldots:\ldots
+  \item \texttt{\textbackslash}dots:\dots
+\end{itemize}
+\subsection{连字}
+有些相邻的字母在排版时会连接起来，可以通过 \texttt{\textbackslash}mbox{} 命令避免它们相连。
+\begin{itemize}
+  \item f\mbox{}fshf\mbox{}ilf\mbox{}luf\mbox{}f\mbox{}ia：ffshfilfluffia
+  \item f \texttt{\textbackslash}mbox\texttt{\{}\texttt{\}} fshf \texttt{\textbackslash}mbox\texttt{\{}\texttt{\}} ilf \texttt{\textbackslash}mbox\texttt{\{}\texttt{\}}  luf \texttt{\textbackslash}mbox\texttt{\{}\texttt{\}}
+  f \texttt{\textbackslash}mbox\texttt{\{}\texttt{\}} ia
+\end{itemize}
+\subsection{重音符号和特殊符号}
+\LaTeX 支持用命令输入各种西欧语言的特殊符号和重音，重音符号和特殊符号命令列表：
+\begin{quote}
+  \`o  \qquad \'o  \qquad \^o  \qquad \~o \\
+  \=o  \qquad \.o  \qquad \"o  \qquad \c c \\
+  \u o \qquad \v o \qquad \H o \qquad \c o \\
+  \d o \qquad \b o \qquad \t oo \\
+  \oe  \qquad \OE  \qquad \ae  \qquad \AE \\
+  \aa  \qquad \AA \\
+  \o   \qquad  \O  \qquad \l  ~\qquad \L \\
+  \i   ~\qquad  \j  ~\qquad  !`  ~\qquad ?` \\
+\end{quote}
+
+\section{国际语言支持/中文排版支持}
+\LaTeX 对其他很多语言提供了支持。babel宏包可以用于对各种语言进行适配。排版中文有两种方式，一种是使用xeCJK宏包，另一种是使用 \CTeX 宏包和文档类。\CTeX 宏包和文档类是对 CJK 和 xeCJK 等宏包的进一步封装。文档类包括 \texttt{ctexart}、
+ctexrep、ctexbook，分别是对 \LaTeX 的三个标准文档类 article、report、
+book 的封装，对 \LaTeX 的排版样式做了许多调整，以切合中文排版风格。最新版本的 \CTeX 宏包/文档类甚至支持自
+动配置字体。
+\subsection{\CTeX 的安装}
+   \CTeX 宏集依赖的宏包和宏集已被最常见的 \TeX 发行版 \TeX Live 和 MiK\TeX 所收录。如果本地安装的 \TeX Live 或
+   MiK\TeX 不是完全版本，就需要通过这两个发行版提供的宏包管理器来安装宏包。
+
+   \TeX Live 的宏包管理器是 tlmgr。在Linux系统上，一般需要 sudo权限才能正确地执行
+   tlmgr的功能。
+
+直接使用 sudo tlmgr [arg]时，可能会提示找不到 tlmgr 或没有这个命令。sudo 有一种内置的保护机制，只会使用安全的环境变量 PATH。如果 \TeX Live 的路径不在
+sudo 的安全环境变量内，它就找不到相关的命令。可以在终端执行sudo gedit /etc/sudoers，然后将\TeX Live的路径添加到 sudo 的
+secure\_path 中。不同路径用 \texttt{:}隔开。
+
+问题解决后，在终端中依次执行以下命令，以更新 tlmgr 宏包管
+理器、已安装的所有宏包、安装 \CTeX 宏集。
+
+    sudo tlmgr update --self
+
+    sudo tlmgr update --all
+
+    sudo tlmgr install ctex
+\subsection{\CTeX 文档类}
+\CTeX 宏集提供了四个中文文档类：ctexart、ctexrep、ctexbook 和
+ctexbeamer，分别对应 \LaTeX 的标准文档类 article、report、book 和
+beamer。使用它们的时候，需要将涉及到的所有源文件使用 UTF-8 编码保存。
+
+下面是使用 ctexart 文档类编写的一个例子：
+
+    \texttt{\textbackslash}documentclass[UTF8]\texttt{\{}ctexart\texttt{\}}
+
+    \texttt{\textbackslash}begin\texttt{\{}document\texttt{\}}
+
+    \texttt{\textbackslash}end\texttt{\{}document\texttt{\}}
+\section{单词间的空格}
+\LaTeX 默认句子以句点、问号或者感叹号结尾。但是如果句点跟在一个大写字母后面，它不会认为这是句子结尾，因为大写字母后面跟句点往往是缩略词。
+
+用户可以通过具体的命令来改变上面的默认设定。一个斜杠跟一个空格会产生一个不会被扩大的空格；一个波浪线（\texttt{$\sim$}）
+会产生一个既不能被扩大、也不能从这里断行的空格；在句点前使用 \texttt{\textbackslash}@ 命令，不管这个句点是不是跟在大
+写字母后面，都会指定这个句子到句点就结束。使用 \texttt{\textbackslash}frenchspacing 命令可以强制不在一个句子后面插
+入多余的空格。如果使用 \texttt{\textbackslash}frenchspacing 命令就没必要再用 \texttt{\textbackslash}@ 了。
+
+例子：
+
+Mr.~Smith was happy to see her
+
+cf.~Fig.~5
+
+I like BASIC\@. What about you?
+\section{标题、章、节}
+文档类中的几种分层次结构命令：
+
+\texttt{\textbackslash}section\texttt{\{}...\texttt{\}}
+
+\texttt{\textbackslash}subsection\texttt{\{}...\texttt{\}}
+
+\texttt{\textbackslash}subsusection\texttt{\{}...\texttt{\}}
+
+\texttt{\textbackslash}paragraph\texttt{\{}...\texttt{\}}
+
+\texttt{\textbackslash}subparagraph\texttt{\{}...\texttt{\}}
+
+如果你想把你的文件分成不同的部分而不影响章节编号的的使用：
+
+\texttt{\textbackslash}part\texttt{\{}...\texttt{\}}
+
+当使用 report 和 book 类时：
+
+\texttt{\textbackslash}chapter\texttt{\{}...\texttt{\}}
+
+下面是两个比较特殊的情况：
+\begin{itemize}
+  \item \texttt{\textbackslash}part 命令不会影响 chapter 或 section 的编号。
+  \item \texttt{\textbackslash}appendix 命令没有任何参数，会把 chapter（对于 report、book）或 section（对于article）
+  的数字编号转换成字母编号。
+\end{itemize}
+
+\texttt{\textbackslash}tableofcontents 命令可以用于建立目录，目录就会在这条命令所在的位置生成。一般新写的文档需要编译两次才能正确生成目录，
+必要的时候\LaTeX 也会提示需要编译三次。
+
+以上的分章节的命令都有一个可以在命令名称后加一个星号的版本，例如\texttt{\textbackslash}section\texttt{\{}...\texttt{\}}命令，
+加星号之后的命令为\texttt{\textbackslash}section\texttt{$*$}\texttt{\{}...\texttt{\}},不同之处是加星版本的章节命令对应的标题不会显示在目录里，
+也不会被编号。
+
+有时候章节标题太长，这回导致其在目录里显示不佳。可以通过下面的命令在真真的标题前选择添加一个参数，指定在目录中显示的标题。
+\\
+
+\texttt{\textbackslash}chapter\texttt{[}Title for the table of contents\texttt{]}\texttt{\{}A long and espexially boring title, show
+in the text\texttt{\}}
+\\
+
+整个文档的标题是通过\texttt{\textbackslash}maketitle命令产生。在调用\texttt{\textbackslash}maketitle命令之前文档标题的内容
+需要由\texttt{\textbackslash}title\texttt{\{}...\texttt{\}}、\texttt{\textbackslash}author\texttt{\{}...\texttt{\}}、\texttt{\textbackslash}date\texttt{\{}...\texttt{\}}
+（可选）等参数指定。在\texttt{\textbackslash}author\texttt{\{}...\texttt{\}}命令的参数中，可以用\texttt{\textbackslash}and来间隔多个作者名字。
+
+\LaTeXe 在book文档有以下三个额外的命令，可以进行前沿、正文、后记的结构划分。这三个命令还可以和\texttt{\textbackslash}appendix命令结合，生成有前沿、正文、附录、后记四部分的文档。
+\begin{itemize}
+ \item \texttt{\textbackslash}frontmatter 前言部分，放置在文档主体的最开始（\texttt{\textbackslash}begin{$*$}\texttt{\{}document\texttt{\}}），
+ 他会把页码变成罗马数字，其后的\texttt{\textbackslash}chapter不编号
+ \item \texttt{\textbackslash}mainmatter 正文部分，页码为阿拉伯数字格式，从1开始计数，其后的章节编号正常
+ \item \texttt{\textbackslash}backmatter 后记部分，页码格式不变，继续正常计数；其后的\texttt{\textbackslash}chapter不编号
+\end{itemize}
+\section{交叉引用}
+当需要对图片表格等进行引用时，用下列命令：
+\begin{itemize}
+  \item \texttt{\textbackslash}label\texttt{\{}marher\texttt{\}}
+  \item \texttt{\textbackslash}ref\texttt{\{}marher\texttt{\}}
+  \item \texttt{\textbackslash}pageref\texttt{\{}marher\texttt{\}}
+\end{itemize}
+其中，maeker是由用户自行定义的标识符。
+\\
+
+A refernce to this subsection
+\label{sec:this} look like:
+``see section~\ref{sec:this} on
+page~\pageref{sec:this}."
+\section{脚注}
+可以使用\texttt{\textbackslash}footnote\texttt{\{}...\texttt{\}}命令来添加脚注，脚注应该紧跟在它注解的词或句子（包括标点符号）后面。
+
+由于脚注会分散读者的注意力，所以尽量在文章主体说清楚，少用脚注。
+\\
+
+Footnotes\footnote{This is a footnote.} are often used by people using \LaTeX.
+\section{强调}
+在\LaTeX 中可以通过\texttt{\textbackslash}underline\texttt{\{}...\texttt{\}}命令来实现。但在印刷书籍中，一般通过
+\texttt{\textbackslash}emph\texttt{\{}...\texttt{\}}命令，使用意大利字体进行强调。但并不是绝对的，需要结合具体语境。
+\\
+
+\emph{If you use emphasized text, then \LaTeX{} uses the \emph{normal} font for emphasizing.}
+\section{环境}
+环境的典型命令为\texttt{\textbackslash}begin\texttt{\{}\texttt{\textbackslash}emph\texttt{\{}environment\texttt{\}}\texttt{\}}
+ text \texttt{\textbackslash}end\texttt{\{}\texttt{\textbackslash}emph\texttt{\{}environment\texttt{\}}\texttt{\}} 其中environment
+是环境的名字。
+
+环境可以相互嵌套，例如：
+
+\texttt{\textbackslash}begin\texttt{\{}aaa\texttt{\}}
+
+   \qquad ...
+
+    \qquad  \texttt{\textbackslash}begin\texttt{\{}bbb\texttt{\}}
+
+      \qquad \qquad  ...
+
+    \qquad  \texttt{\textbackslash}end\texttt{\{}bbb\texttt{\}}
+
+   \qquad ...
+
+\texttt{\textbackslash}end\texttt{\{}aaa\texttt{\}}
+
+\subsection{Itemize , Enumerate , and Description}
+示例：
+\flushleft
+\begin{enumerate}
+\item You can nest the list environments to your taste:
+\begin{itemize}
+\item But it might start to look silly.
+\item[-] With a dash.
+\end{itemize}
+\item Therefore remember:
+\begin{description}
+\item[Stupid] things will not become smart because they are in a list.
+\item[Smart] things , though, can be presented beautifully in a list.
+\end{description}
+\end{enumerate}
+\subsection{Flushleft , Flushright , and Center}
+\qquad flushleft、flushright 和center环境分别会使段落左对齐、右对齐和居中。
+
+示例：
+
+flushleft:
+
+\begin{flushleft}
+This text is\\left-aligned.
+\LaTeX{} is not trying to make each line the same length.
+\end{flushleft}
+
+flushright:
+
+\begin{flushright}
+This text is right-\\aligned.
+\LaTeX{} is not trying to make each line the same length.
+\end{flushright}
+
+center:
+
+\begin{center}
+At the centre\\of the earth
+\end{center}
+
+\subsection{Quote , Quotation , and Verse}
+\qquad quote环境适合引用一些名言、重要的词句、示例等。
+
+示例代码：
+
+A typographical rule of thumb for the line length is:
+\begin{quote}
+On average, no line should be longer than 66 characters.
+\end{quote}
+This is why \LaTeX{} pages have such large why multicolumn print is used in newspapers.
+
+\qquad quotation环境verse环境很像。但由于quotation环境对每一段都会缩进，所以适合引用比较长的、一般有几段的内容；而verse环境很适合引用诗歌，利用\texttt{\textbackslash}\texttt{\textbackslash}或空行来分行。
+
+示例：
+
+I know only one English poem by heart.It is about Humpty Dumpty.
+\begin{flushleft}
+\begin{verse}
+Humpty Dumpty sat on a wall:\\
+Humpty Dumpty had a great fall.\\
+All the King's horses and all the King's men\\
+Couldn't put Humpty together again.
+\end{verse}
+\end{flushleft}
+\subsection{Abstract}
+\qquad 在科学刊物中，一般会以一段摘要开头，让读者对这篇文章有一个整体认知，这是一个惯例。\LaTeX 的abstract环境就是用于写摘要的，一般用于article文档类。
+
+示例：
+\begin{abstract}
+This abstract abstract.
+\end{abstract}
+
+\subsection{Printing Verbatim}
+\qquad 在verbatim和verbatim之间的所有文本都会原封不动地打印出来，文本中的\LaTeX 命令不会被执行，所以可以用verbatim 环境来插入一段代码。
+
+\qquad 如果要插入行间代码，可以用\texttt{\textbackslash}verb+text+命令。其中的+只是分隔符，可以由用户虽已制定，但不能用字母、$\ast$ 或空格，习惯上用$\mid$。
+
+示例：
+
+The \verb|\ldots| command \ldots
+
+\begin{verbatim}
+10 PRINT "HELLO WORLD ";
+20 GOTO 10
+\end{verbatim}
+
+verbatim环境和verb命令都各自有一个加$\ast$ 的版本，区别是会把空格显示成\verb*| |。
+
+示例：
+
+\begin{verbatim*}
+the starred version of
+the       verbatim
+environment emphasizes
+the spaces   in the text
+\end{verbatim*}
+
+\verb*|like this :-) |
+
+verbatim环境和\texttt{\textbackslash}verb命令对符号的处理比较复杂，一般不能用在其他命令的参数里，否则多半会出错。
+\subsection{Tabular}
+\qquad tabular 环境可以用于排班表格，\LaTeX 会自动地调整表格每一列的宽度。具体命令如下：
+
+\qquad \texttt{\textbackslash}\texttt{\{}tabular\texttt{\}}[pos]\texttt{\{}talbe spec\texttt{\}}
+
+\qquad 其中，table spec参数决定了表格的格式，1、r、c 分别会使单元格内容左对齐、右对齐、居中，不拆行；
+$\mid$会绘制竖线；p\texttt{\{}width\texttt{\}}会使单元格固定宽度为width，可以自动拆行；可以通过\texttt{@\{...\}}
+来在单元格前后插入任意的文本，但同时它会使单元格前后额外添加的间距。
+
+\qquad 表格中每行的单元格数目不能多于列格式里 l\texttt{\textbackslash}c\texttt{\textbackslash}r\texttt{\textbackslash}p\texttt{\textbackslash}的总数（可以少于这个总数），
+否则出错。
+
+\qquad pos参数用于指定表格相对于环绕为基线的垂直位置，可以为 t 、b 和 c ，分别代表顶部、底部和中间。
+
+\qquad 在tabular环境内，\& 会跳到下一列，\texttt{\textbackslash}\texttt{\textbackslash}会新起一行，
+\texttt{\textbackslash}hline会插入一条水平线。使用\texttt{\textbackslash}cline\texttt{\{}i-j\texttt{\}}
+会插入一部分水平线，其中 i 和 j 是列的编号。
+\newline
+
+示例1：
+\newline
+
+\begin{tabular}{|r|l|}
+\hline
+7C0 & hexadecimal \\
+3700 & octal \\ \cline{2-2}
+11111000000 & binary \\
+\hline \hline
+1984 & decimal \\
+\hline
+\end{tabular}
+\newline
+
+示例2：
+\newline
+
+\begin{tabular}{|p{4.7cm}|}
+\hline
+Welcome to Boxy's paragraph.
+We Sincerely hope you'll all enjoy the show.\\
+\hline
+\end{tabular}
+\newline
+
+\qquad 如果想让表格的某一列按小数点对齐，又不使用额外的宏包（dcolumn)，可以采用一种比较折中的想法：把该列的所有小数
+部分，各作为一列，然后在tabular 环境中使用\texttt{@\{...\}}作为整数列和小数列的分隔符。整数部分和小数部分之间不要忘了用 \& 隔开，
+因为它们现在是两列了。为了在这两列的表头仅显示一个标签，可以使用\texttt{\textbackslash}multicolumn命令。
+\newline
+
+示例3：
+\newline
+
+\begin{tabular}{c r @{.} l}
+Pi expression       &
+\multicolumn{2}{c}{Value} \\
+\hline
+$\pi$               & 3&1416 \\
+$\pi^{\pi}$         & 36&46  \\
+$(\pi^{\pi})^{\pi}$ & 80662&7 \\
+\end{tabular}
+\newline
+
+示例4：
+\newline
+
+\begin{tabular}{|c|c|}
+\hline
+\multicolumn{2}{|c|}{Ene} \\
+\hline
+Mene & Muh！\\
+\hline
+\end{tabular}
+\newline
+
+\qquad 有时候需要为整列修饰格式，比如整列改变为粗体，如果每个单元格都加上\texttt{\textbackslash}bfseries命令会比较麻烦。array宏包提供了辅助格式\texttt{>}和\texttt{<}，
+用于给格式前后加上修饰命令。辅助格式甚至支持插入\texttt{\textbackslash}centering等命令改变 p\texttt{\{}width\texttt{\}} 列格式的对齐方式，一般还要加额外的命令。辅助格式甚至支持插入
+\texttt{\textbackslash}centering 等命令会破坏表格环境里\texttt{\textbackslash}\texttt{\textbackslash}换行命令的定义，\texttt{\textbackslash}arraybackslash用来恢复之，
+如果不加\texttt{\textbackslash}arraybackslash命令，也可以用\texttt{\textbackslash}tabularnewline命令代替原来的\texttt{\textbackslash}\texttt{\textbackslash}实现表格换行。
+\newline
+
+示例5：
+\newline
+
+\begin{tabular}{>{\itshape}r<{*}l}
+\hline
+italic & normal \\
+column & column \\
+\hline
+\end{tabular}
+\newline
+
+示例6：
+\newline
+
+\begin{tabular}
+{>{\centering\arraybackslash}p{9em}}
+\hline
+Some center-aligned long text. \\
+\hline
+\end{tabular}
+\newline
+
+有时\LaTeX 默认的表格会比较拥挤，可以通过改变\texttt{\textbackslash}arraystretch 和\texttt{\textbackslash}tabcolsep参数来调节。
+\newline
+
+示例7：
+\newline
+
+\begin{tabular}{|l|}
+\hline
+These lines\\\hline
+are tight\\\hline
+\end{tabular}
+
+{\renewcommand{\arraystretch}{1.5}
+\renewcommand{\tabcolsep}{0.2cm}
+\begin{tabular}{|l|}
+\hline
+less cramped\\\hline
+table layout\\\hline
+\end{tabular}}
+\newline
+
+如果只想增加表格中某一行的高度，可以通过添加一条不可见的“支柱”来实现。即使用\texttt{\textbackslash}rule命令，并把宽度设置为0。
+\newline
+
+示例8：
+\newline
+
+\begin{tabular}{|c|}
+\hline
+\rule{1pt}{4ex}Pitprop \ldots\\
+\hline
+\rule{0pt}{4ex}Strut\\
+\hline
+\end{tabular}
+\newline
+
+如果想排版较长的表格，可以使用longtable环境。在booktabs宏包中，还有很多其他的命令可以美化表格。
+\section{浮动体}
+\qquad 一般的刊物、出版品都会有各种图表，由于这类元素不能跨页，所以需要特殊对待。有一种方法是每当遇到一个图或表在当前页放不开的时候，就新起一页。这种方法会让页面有比较多的留白，看起来会不美观。
+
+\qquad 一种比较好的解决方法是当前页放不开的时候，就新起一页。这种方法会让页面去，当前页面用正文进行填充。\LaTeX 提供了两种浮动体环境：
+figure和table,分别针对图片和表格。任何放在figure和table环境中的东西都会被视为是浮动体。
+
+\texttt{\textbackslash}\texttt{\{}figure\texttt{\}}[placement specifier] or \texttt{\textbackslash}begin\texttt{\{}table\texttt{\}}[...]
+
+\qquad 所有的浮动体环境都会有一个叫 placement specifier 的可选的参数，可以用于指定这个浮动体被允许移动到哪里。下面是placement specifier 参数的可选值（默认为tbp，优先级按照h-t-b-p排列，与顺序无关）：
+\begin{itemize}
+  \item h，当前位置（代码所处的上下文）
+  \item t，顶部，如果是当前页排版可能出现在代码之前
+  \item b，底部
+  \item p，一个或多个浮动体被放在单独的页面中，这个页面被称为浮动液面（float page），与之对应，有文本的页面称为文本页（text page)
+  \item !，再决定位置时忽略文本页的限制（\LaTeX 对每个位置的浮动体的总数和占用大小等有一定的限制），只有浮动页的限制（\texttt{\textbackslash}floatpagefraction 和\texttt{\textbackslash}dblfoatpagefraction）起效。
+\end{itemize}
+\qquad \LaTeX 会根据用户指定的 placement specifier 参数来防止每个浮动体。如果一个浮动体不能被放置在当前页，他就会被加入 figures 队列或 tables 队列。当新起一页的时候，\LaTeX 会先检查能否把这一页作为一个浮动页来放置队列中的浮动体。
+如果不行，队列中的第一个浮动体就会被认为是这个新起的一页刚产生的，然后\LaTeX 就再次根据他们的placement spacifier参数在这个新起的一页进行放置。
+\LaTeX 会严格地按照浮动体在队列中的顺序来执行这一过程，这也就是为什么如果figures队列中的第一个图片一直无法放置，那么所有的图片都会被拖到文档最后的原因。因此，如果\LaTeX 没有按照要求放置浮动体，在两个浮动体队列中经常会出现一个干扰下一个的情况。
+
+\qquad 尽管可以只指定一个值给 placement specifier 参数，但这样往往会产生问题，一个浮动体没法放置，之后的浮动体也会受到阻碍无法放置。永远都不要只给 placement specifier 参数设置一个 h，这很容易产生问题，以至于新版本的\LaTeX 会自动将其替换为ht。
+
+\qquad float 宏包为浮动体提供了 H 位置参数，不与 htbp 及 ！混用。使用 H 位置参数时，会自动取消浮动机制，将浮动体视为一般的盒子插入当前位置。
+
+\qquad 用\texttt{\textbackslash}caption\texttt{\{}caption text\texttt{\}}命令来给 table 或figure 环境加说明文字，\LaTeX 会自动根据其类型分别编号。
+
+\qquad \texttt{\textbackslash}liatoffigures 和\texttt{\textbackslash}listoftables命令和\texttt{\textbackslash}tableofcontents命令很类似，可以用于建立图表索引。这种图表索引会完整地显示所有图标的说明文字，所以如果说明文字太长也不太好，这时可以用
+\texttt{\textbackslash}caption[Short][LLLLLLLooooonnnnnggggggg]命令来指定一个对应的短点的说明。
+
+\qquad 可以通过\texttt{\textbackslash}label 和\texttt{\textbackslash}ref命令来对浮动体建立标签和进行引用。需注意，既然是要引用图表的编号，所以要把\texttt{\textbackslash}label 命令放置在\texttt{\textbackslash}caption之后。
+
+示例：
+
+Figure~\texttt{\textbackslash}ref\texttt{\{}white\texttt{\}} is an example of Pop-Art。
+\texttt{\textbackslash}begin\texttt{\{}figure\texttt{\}}[!hbtp]
+\texttt{\textbackslash}makebox[\texttt{\textbackslash}textwidth]\texttt{\{}\texttt{\textbackslash}framebox[5cm]\texttt{\{}\texttt{\textbackslash}rule\texttt{\{}Opt\texttt{\}}\texttt{\{}5cm\texttt{\}}\texttt{\}}\texttt{\}}
+\texttt{\textbackslash}caption\texttt{\{}Five by Five in Centimetres.\texttt{\textbackslash}label\texttt{\{}white\texttt{\}}\texttt{\}}
+\texttt{\textbackslash}end\texttt{\{}figure\texttt{\}}
+
+\qquad 在上面的实例中，[！hbtp]是\LaTeX 中最宽松的浮动体位置参数。\LaTeX 会先努力尝试（!）将图片放置在产生它代码所在的上下文位置（h）。如果不行，他会尝试放置在该页的底部（b）。如果还是不行，就不能放在该页了，
+它会考虑能不能建立一个浮动体页来防止这个浮动体以及其他的浮动体。如果不满足新建一个浮动体页的条件，那 \LaTeX 就会新起一页，并把它看作是新起的一页刚产生的浮动体，并按照它的参数重新放置。
+
+\qquad 在遇到\texttt{\textbackslash}clearpage、\texttt{\textbackslash}cleardoublepage 或\texttt{\textbackslash}end\texttt{\{}document\texttt{\}}这三个命令时，所有队列中未处理的浮动体都会直接输出，
+placement specifier 参数中的 p 选项也会打开以保证可以将所有的浮动体输出。
+
+\section{保护脆弱命令}
+\qquad \texttt{\textbackslash}caption和\texttt{\textbackslash}section这种命令以文本作为参数，而且这些文本参数在文档中可能不只一次的出现，所以这些文本参数成为移动参数。但有些脆弱命令，如\texttt{\textbackslash}footnote和\texttt{\textbackslash}phantom
+等，作为它们的参数时候会失效，甚至引起报错。需要在脆弱命令前加上\texttt{\textbackslash}protect命令来保护它们，这样它们就可以作为移动参数了。
+
+\qquad \texttt{\textbackslash}protect 命令只会影响紧跟在它之后的一个命令，一半多加了\texttt{\textbackslash}protect命令也不会出什么问题。
+
+示例：
+
+\texttt{\textbackslash}section\texttt{\{}I am considerate
+        \texttt{\textbackslash}protect\texttt{\textbackslash}footnote\texttt{\{}and protect my footnotes\texttt{\}}\texttt{\}}
+\end{document}

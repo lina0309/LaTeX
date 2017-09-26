@@ -1,0 +1,174 @@
+%-*- coding: UTF-8 -*-
+\documentclass[UTF8]{ctexart}
+\usepackage{geometry}
+\geometry{a4paper,centering,scale=0.8}
+\usepackage{textcomp}
+
+\title{\heiti Chapter 1 Things You Need to Know}
+\author{ Donald E. Knuth(高德纳)}
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+
+\newpage
+\section{Advantages and Disadvantages}
+\subsection{Main advantages of \LaTeX}
+\begin{itemize}
+  \item 精心且专业设计的布局使整个文档看起来如同“打印”一般。
+  \item 为数学公式的排版提供了一种方便的支持方式。
+  \item 只需要学会几个简短的易于理解的命令，就可以理解文档的逻辑结构。几乎不需要更改文档的实际布局。
+  \item 像脚注、参考资料、目录和参考文献等这些复杂的结构可以很简单的生成。
+  \item 拥有很多针对不同排版任务的免费附加宏包。
+  \item 鼓励读者写出精美结构的文章——这就是 \LaTeX 的目的。
+  \item 免费并且易于获取，几乎可以在任何平台上应用。
+\end{itemize}
+\subsection{Some disadvantages of \LaTeX}
+\begin{itemize}
+  \item 对于那些出卖自己灵魂的人，\LaTeX 救不了他们。
+  \item 尽管一些参数可以在预定的文档布局中进行调整，但重新设计排版很困难并且会花费大量时间。
+  \item 想要编写非结构化和没有组织的文档是非常困难的。
+  \item 若是浅尝辄止，终不能领悟“逻辑标记”的真谛（\emph{ Your hamster might,despite some encouraging first steps,never be able to full grasp the concept of Logical Markup } ）
+\end{itemize}
+
+\section{\LaTeX 输入文件}
+\subsection{空格}
+\begin{itemize}
+  \item "Whitespace"字符，如空白、Tab。
+  \item 连续几个空格视为一个空格。
+  \item 每行开头的空格被忽略，结尾的换行符被视为空格。
+  \item 两行文本间的空行视为段落的结束。
+  \item 多个空行视为一个空行。
+\end{itemize}
+\subsection{特殊字符}
+\begin{itemize}
+  \item 常用的保留字符：
+
+  \qquad \texttt{\#} \qquad \texttt{~\$} \qquad \texttt{~~~\^} \qquad \texttt{~\&} \qquad \texttt{~\_} \qquad \texttt{~\{} \qquad \texttt{~\}} \qquad \texttt{~~\~} \qquad \texttt{\textbackslash}
+  \item 输入格式：
+
+  \qquad \texttt{\textbackslash}\texttt{\#} \qquad \texttt{\textbackslash}\texttt{\$} \qquad \texttt{\textbackslash}\texttt{\^{}}\texttt{\{}\texttt{\}}\qquad\texttt{\textbackslash}\texttt{\&}\qquad \texttt{\textbackslash}\texttt{\_} \qquad \texttt{\textbackslash}\texttt{\{} \qquad \texttt{\textbackslash}\texttt{\}}\qquad\texttt{\textbackslash}\texttt{~\~}\texttt{\{}\texttt{\}}\qquad\texttt{\textbackslash}textbackslash
+
+  \LaTeX 有很多特殊字符不能直接输出。想要输出 \textbackslash 不能输入\textbackslash\textbackslash,应该按照上面的格式输入，\textbackslash\textbackslash 是用来断行。
+\end{itemize}
+\subsection{\LaTeX 命令}
+\LaTeX 命令是区分大小写的，以反斜线\texttt{\textbackslash}开头，并采用以下两种格式之一：
+\begin{itemize}
+  \item 反斜线和后面的一串字母，如\texttt{\textbackslash} LaTeX。它们以任意非字母符号（空格
+、数字、标点等）作为分隔符。
+  \item 反斜线和后面的一个非字母符号，如\textbackslash\$。他们无需分隔符。
+\end{itemize}
+ \qquad 字母形式的 \LaTeX 命令忽略其后的所有空格。如果要人为引入空格，需要在命令后面加一对括号阻止其忽略空格：
+
+ Shall we call ourselves \TeX users or  \TeX{} users?
+
+大多数的 \LaTeX 命令时代一个或多个参数，每个参数用花括号\texttt{\{} 和 \texttt{\}}包裹。有些命令带一个或多个可选参数，以\texttt{[} 和 \texttt{]} 包裹。还有些命令在命令名称后可以带一个星号\texttt{*}，带星号和不带星号的命令效果有一定差异。
+
+\LaTeX 还引入了软环境的用法：
+
+\texttt{\textbackslash}begin\texttt{\{}$\langle$environment\,\,name$\rangle$\texttt{\}}\texttt{\{}$\langle$arguments$\rangle$\texttt{\}}
+
+...
+
+\texttt{\textbackslash}end\texttt{\{}$\langle$environment\,\,name$\rangle$\texttt{\}}
+
+其中$\langle$environment\,\,name$\rangle$为环境名，\texttt{\textbackslash}begin 和 \texttt{\textbackslash}end 中填写的环境名应当一致。\texttt{\textbackslash}begin 在$\langle$environment\,\,name$\rangle$后可以带一个或多个参数，甚是可以选参数。环境允许潜逃使用。
+\subsection{\LaTeX 注释}
+在处理输入文件时遇到 \texttt{\%}会自动忽略其余的行，用于注释不会显示在印刷版本中。
+
+This is an %stupid%Better:instructive
+example: Supercal%ifragilist
+icexpialidocious
+
+引入verbatim宏包（\texttt{\textbackslash}usepackage\texttt{\{}verbatim\texttt{\}})后，可以在 \texttt{\textbackslash}begin\texttt{\{}comment\texttt{\}}和 \texttt{\textbackslash}end\texttt{\{}comment\texttt{\}}之间加入多行注释。
+\section{\LaTeX 输入文件结构}
+每个输入文件必须从命令开始。
+
+\texttt{\textbackslash}document\texttt{\{}...\texttt{\}}
+
+调用宏包。
+
+\texttt{\textbackslash}usepackage\texttt{\{}...\texttt{\}}
+
+写入正文开始位置
+
+\texttt{\textbackslash}begin\texttt{\{}document\texttt{\}}
+
+\texttt{\textbackslash}end\texttt{\{}document\texttt{\}}
+\section{\LaTeX 文件的布局}
+\LaTeX 源代码开头必须用\texttt{\textbackslash}document指定文档类：\texttt{\textbackslash}document[$\langle$options$\rangle$]\texttt{\{}$\langle$class-name$\rangle$\texttt{\}}
+
+$\langle$class-name$\rangle$为文档类的名称，\LaTeX 提供的基础文档类如下：
+\begin{itemize}
+    \item \texttt{article} 文章格式的文档类，广泛用于科技论文、报告、说明文档等。
+  \item \texttt{report} 长篇报告格式的文档，具有章节结构，用于综述、长篇论文、简单的书籍等。
+  \item \texttt{book} 书籍文档类，包含章节结构和前言、正文、后记等结构。
+  \item \texttt{proc} 基于article文档类的一个简单的学识文档模板。
+  \item \texttt{slides} 幻灯格式的文档类，只设定了纸张大小和和基本字号，用做代码测试的最小工作示例（Minimal Working Example）。
+
+可选参数$\langle$options$\rangle$为文档指定选项，比如调用article文档排版文章，指定纸张为A4大小，基本字号为11pt，双面排版：\texttt{\textbackslash}documentclass[11pt,twoside,a4paper]\texttt{\{}artilce\texttt{\}}
+
+\LaTeX 的三个标准文档类可指定的选项如下：
+  \item \texttt{10pt,11pt,12pt} 指定文档的基本字号。缺省为10pt。
+  \item \texttt{a4paper,letterpaper,...} 指定纸张大小，默认为美式纸张letterpaper。可指定选项还包括 a5paper，b5paper，executivepaper 和 legalpaper。
+  \item \texttt{fleqn} 令行间公式左对齐（缺省为居中）。
+  \item \texttt{leqno} 将公式编号放在左边（缺省为右边）。
+  \item \texttt{titlepage , notitlepage} 指定标题命令 \texttt{\textbackslash}maketitle 是否生成单独的标题页。article 缺省为 notitlepage, report 和 book 缺省为 titlepage。
+  \item \texttt{onecolumn, twocolumn} 指定单栏/双栏排版。
+  \item \texttt{twoside, oneside} 指定单面/双面排版。双面排版时，奇偶页的页眉页脚、页边距不同。article 和report 缺省为单面排版，book缺省为双面。
+  \item \texttt{landscape} 指定横向排版。缺省为纵向。
+  \item \texttt{openright, openenany} 指定新的一章\texttt{\textbackslash}chapter是在奇数页（右侧）开头，还是直接紧跟着上一页开头。report缺省为openany，book 缺省为 openright。【对article无效】
+\end{itemize}
+\section{\LaTeX 用到的文件一览}
+除了需要编写的源代码 .tex 文件，还有其他文件。每个宏包和文档类都是带特定扩展名的文件，除此之外也有一些文件出现于 \LaTeX 模板中：
+\begin{itemize}
+  \item \texttt{.sty} 宏包文件。宏包的名称就是去掉扩展名的文件名。
+  \item \texttt{.cls} 文档类文件。同样地，文档类名称就是文件名。
+  \item \texttt{.bib} Bib\TeX 参考文献数据库文件。
+  \item \texttt{.bst} Bib\TeX 用到的参考文献格式模板。
+
+\LaTeX 在变异过程中生成相当多的辅助文件和日志。一些功能如交叉引用、参考文献、目录、索引等，需要先编译生成辅助文件，然后再次编译时读入辅助文件得到正确的结果，所以复杂的\LaTeX 源代码可能要便已多次：
+  \item \texttt{.log} 排版引擎生成的日志文件，供排查错误使用。
+  \item \texttt{.aux} \LaTeX 生成的主辅助文件，记录交叉引用、目录、参考文献的引用等。
+  \item \texttt{.toc} \LaTeX 生成的目录记录文件。
+  \item \texttt{.lof} \LaTeX 生成的图片记录文件。
+  \item \texttt{.lot}\LaTeX 生成的表格记录文件。
+  \item \texttt{.bbl} Bib\TeX 生成的参考文献记录文件。
+  \item \texttt{.blg} Bib\TeX 生成的日志记录文件。
+  \item \texttt{.idx} \LaTeX 生成的供 makeindex 处理的索引记录文件。
+  \item \texttt{.ind} makeindex 处理 .idx 生成的格式化索引记录文件。
+  \item \texttt{.ilg} makeindex 生成的日志文件。
+  \item \texttt{.out} hyperref 宏包生成的PDF书签记录文件。
+\end{itemize}
+\section{\LaTeX 文件的组织方式}
+\LaTeX 提供了命令 \texttt{\textbackslash}include 用来在源代码里插入文件：\texttt{\textbackslash}include\texttt{\{}$\langle$filename$\rangle$\texttt{\}}
+
+$\langle$filename$\rangle$为文件名，如果和要编译的主文件不在一个目录，则要加上相对路径或绝对路径，例如：
+
+\texttt{\textbackslash}include\texttt{\{}chapters/a.tex\texttt{\}} \% 相对路径
+
+\texttt{\textbackslash}include\texttt{\{}/home/Bob/file.tex\texttt{\}} \% Linux 绝对路径
+
+\texttt{\textbackslash}include\texttt{\{}D:/file.tex\texttt{\}} \%Windows 绝对路径
+
+$\langle$filename$\rangle$可以不带扩展名，此时默认为 .tex；其他文件必须带扩展名。
+
+注意\texttt{\textbackslash}include在读入$\langle$filename$\rangle$之前会另起一页。有时候我们并不需要这样，而是用\texttt{\textbackslash}input命令，它纯粹是把文件里的内容插入：
+
+\texttt{\textbackslash}input\texttt{\{}$\langle$filename$\rangle$\texttt{\}}
+
+另外\LaTeX 提供了一个\texttt{\textbackslash}includeonly命令来组织文件，用于导言区，指定只载入某些文件：
+
+\texttt{\textbackslash}includeonly\texttt{\{}$\langle$filename1$\rangle$,$\langle$filename2$\rangle$,...\texttt{\}}
+
+导言区使用了\texttt{\textbackslash}includeonly后，正文中不在其列表范围的\texttt{\textbackslash}include命令不会起效。
+
+最后介绍一个实用的工具包syntonly。加载这个宏包后，在导言区使用\texttt{\textbackslash}syntaxonly命令，可令\LaTeX 编译后不生成DVI或者PDF文档，只排查错误，编译速度会快不少：
+
+\texttt{\textbackslash}usepackage\texttt{\{}syntonly\texttt{\}}
+
+\texttt{\textbackslash}syntaxonly
+
+如果想生成文档，则将\texttt{\textbackslash}syntaxnoly命令那一行用\%注释掉即可。
+\end{document}
